@@ -6,6 +6,7 @@ function BacklinkTable({ backlinks, onDelete, onEdit }) {
       <thead className="table-dark">
         <tr>
           <th>#</th>
+          <th>Project</th>
           <th>Website</th>
           <th>URL</th>
           <th>DA</th>
@@ -18,6 +19,7 @@ function BacklinkTable({ backlinks, onDelete, onEdit }) {
           backlinks.map((b, i) => (
             <tr key={i}>
               <td>{i + 1}</td>
+              <td>{b.projectName}</td>
               <td>{b.website}</td>
               <td>
                 <a href={b.url} target="_blank" rel="noreferrer">
@@ -28,16 +30,10 @@ function BacklinkTable({ backlinks, onDelete, onEdit }) {
               <td>{b.spamScore}</td>
               <td>
                 <div className="btn-group">
-                  <button
-                    className="btn btn-sm btn-warning"
-                    onClick={() => onEdit(i)}
-                  >
+                  <button className="btn btn-sm btn-warning" onClick={() => onEdit(i)}>
                     Edit
                   </button>
-                  <button
-                    className="btn btn-sm btn-danger"
-                    onClick={() => onDelete(i)}
-                  >
+                  <button className="btn btn-sm btn-danger" onClick={() => onDelete(i)}>
                     Delete
                   </button>
                 </div>
@@ -46,7 +42,7 @@ function BacklinkTable({ backlinks, onDelete, onEdit }) {
           ))
         ) : (
           <tr>
-            <td colSpan="6" className="text-center">
+            <td colSpan="7" className="text-center">
               No backlinks added yet.
             </td>
           </tr>

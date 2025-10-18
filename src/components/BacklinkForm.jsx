@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 
 function BacklinkForm({ onAdd, onUpdate, editing, currentBacklink }) {
   const [formData, setFormData] = useState({
+    projectName: '',
     website: '',
     url: '',
     domainAuthority: '',
     spamScore: '',
   });
 
-  // Populate form when editing an existing backlink
   useEffect(() => {
     if (editing && currentBacklink) {
       setFormData(currentBacklink);
     } else {
-      setFormData({ website: '', url: '', domainAuthority: '', spamScore: '' });
+      setFormData({ projectName: '', website: '', url: '', domainAuthority: '', spamScore: '' });
     }
   }, [editing, currentBacklink]);
 
@@ -31,13 +31,23 @@ function BacklinkForm({ onAdd, onUpdate, editing, currentBacklink }) {
       onAdd(formData);
     }
 
-    setFormData({ website: '', url: '', domainAuthority: '', spamScore: '' });
+    setFormData({ projectName: '', website: '', url: '', domainAuthority: '', spamScore: '' });
   };
 
   return (
     <form className="mb-3" onSubmit={handleSubmit}>
       <div className="row g-2">
-        <div className="col-md-3">
+        <div className="col-md-2">
+          <input
+            type="text"
+            name="projectName"
+            className="form-control"
+            placeholder="Project Name"
+            value={formData.projectName}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="col-md-2">
           <input
             type="text"
             name="website"
@@ -47,7 +57,7 @@ function BacklinkForm({ onAdd, onUpdate, editing, currentBacklink }) {
             onChange={handleChange}
           />
         </div>
-        <div className="col-md-4">
+        <div className="col-md-3">
           <input
             type="url"
             name="url"
