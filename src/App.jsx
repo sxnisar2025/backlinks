@@ -112,7 +112,7 @@ function App() {
   return (
     <div>
       <Navbar />
-      <div className="container my-4">
+      <div className="container-fluid my-4 px-5">
         {/* Header Row */}
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h4>Backlinks Records</h4>
@@ -138,24 +138,24 @@ function App() {
         <div className="row mb-4">
           {/* Left Column (col-8) */}
           <div className="col-md-8">
-            <div className="row g-3">
-              <div className="col-md-3">
-                <div className="card text-center shadow-sm">
+            <div className="row g-6">
+              <div className="col-md-6">
+                <div className="card text-center shadow-sm mb-4">
                   <div className="card-body">
                     <h6>Total Backlinks</h6>
                     <h4 className="text-primary">{total}</h4>
                   </div>
                 </div>
               </div>
-              <div className="col-md-3">
-                <div className="card text-center shadow-sm">
+              <div className="col-md-6">
+                <div className="card text-center shadow-sm mb-4">
                   <div className="card-body">
                     <h6>Live Backlinks</h6>
                     <h4 className="text-success">{live}</h4>
                   </div>
                 </div>
               </div>
-              <div className="col-md-3">
+              <div className="col-md-6">
                 <div className="card text-center shadow-sm">
                   <div className="card-body">
                     <h6>Waiting Backlinks</h6>
@@ -163,7 +163,7 @@ function App() {
                   </div>
                 </div>
               </div>
-              <div className="col-md-3">
+              <div className="col-md-6">
                 <div className="card text-center shadow-sm">
                   <div className="card-body">
                     <h6>Rejected Backlinks</h6>
