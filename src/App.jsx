@@ -4,6 +4,14 @@ import { saveAs } from "file-saver";
 import Navbar from "./components/Navbar";
 import BacklinkForm from "./components/BacklinkForm";
 import BacklinkTable from "./components/BacklinkTable";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 function App() {
   const [backlinks, setBacklinks] = useState([]);
@@ -87,19 +95,31 @@ function App() {
     reader.readAsArrayBuffer(file);
   };
 
+  // 📊 Dashboard Data
+  const total = backlinks.length;
+  const live = backlinks.filter((b) => b.status?.toLowerCase() === "live").length;
+  const waiting = backlinks.filter((b) => b.status?.toLowerCase() === "waiting").length;
+  const rejected = backlinks.filter((b) => b.status?.toLowerCase() === "rejected").length;
+
+  const chartData = [
+    { name: "Live", value: live },
+    { name: "Waiting", value: waiting },
+    { name: "Rejected", value: rejected },
+  ];
+
+  const COLORS = ["#28a745", "#ffc107", "#dc3545"];
+
   return (
     <div>
       <Navbar />
       <div className="container my-4">
+        {/* Header Row */}
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h4>Backlinks Records</h4>
 
           {/* 📥 Download & 📤 Upload Buttons */}
           <div>
-            <button
-              className="btn btn-success me-2"
-              onClick={downloadExcel}
-            >
+            <button className="btn btn-success me-2" onClick={downloadExcel}>
               Download Excel
             </button>
             <label className="btn btn-primary mb-0">
@@ -111,6 +131,74 @@ function App() {
                 onChange={handleFileUpload}
               />
             </label>
+          </div>
+        </div>
+
+        {/* 🧱 Dashboard Section */}
+        <div className="row mb-4">
+          {/* Left Column (col-8) */}
+          <div className="col-md-8">
+            <div className="row g-3">
+              <div className="col-md-3">
+                <div className="card text-center shadow-sm">
+                  <div className="card-body">
+                    <h6>Total Backlinks</h6>
+                    <h4 className="text-primary">{total}</h4>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="card text-center shadow-sm">
+                  <div className="card-body">
+                    <h6>Live Backlinks</h6>
+                    <h4 className="text-success">{live}</h4>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="card text-center shadow-sm">
+                  <div className="card-body">
+                    <h6>Waiting Backlinks</h6>
+                    <h4 className="text-warning">{waiting}</h4>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="card text-center shadow-sm">
+                  <div className="card-body">
+                    <h6>Rejected Backlinks</h6>
+                    <h4 className="text-danger">{rejected}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column (col-4) */}
+          <div className="col-md-4">
+            <div className="card shadow-sm p-3" style={{ height: "100%" }}>
+              <h6 className="text-center">Backlink Status Chart</h6>
+              <ResponsiveContainer width="100%" height={180}>
+                <PieChart>
+                  <Pie
+                    data={chartData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={60}
+                    fill="#8884d8"
+                    label
+                  >
+                    {chartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
 
