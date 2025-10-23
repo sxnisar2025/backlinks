@@ -2,7 +2,7 @@ import React from 'react';
 
 function BacklinkTable({ backlinks, onDelete, onEdit }) {
   return (
-    <table className="table table-striped table-hover">
+    <table className="table table-striped table-hover align-middle">
       <thead className="table-dark">
         <tr>
           <th>#</th>
@@ -11,6 +11,7 @@ function BacklinkTable({ backlinks, onDelete, onEdit }) {
           <th>URL</th>
           <th>DA</th>
           <th>Spam Score</th>
+          <th>Status</th> {/* ✅ New Column */}
           <th>Action</th>
         </tr>
       </thead>
@@ -28,12 +29,33 @@ function BacklinkTable({ backlinks, onDelete, onEdit }) {
               </td>
               <td>{b.domainAuthority}</td>
               <td>{b.spamScore}</td>
+
+              {/* ✅ Show Status with color indicator */}
+              <td>
+                {b.status === 'Live' && (
+                  <span className="badge bg-success">{b.status}</span>
+                )}
+                {b.status === 'Waiting' && (
+                  <span className="badge bg-warning text-dark">{b.status}</span>
+                )}
+                {b.status === 'Rejected' && (
+                  <span className="badge bg-danger">{b.status}</span>
+                )}
+                {!b.status && <span className="text-muted">N/A</span>}
+              </td>
+
               <td>
                 <div className="btn-group">
-                  <button className="btn btn-sm btn-warning" onClick={() => onEdit(i)}>
+                  <button
+                    className="btn btn-sm btn-warning"
+                    onClick={() => onEdit(i)}
+                  >
                     Edit
                   </button>
-                  <button className="btn btn-sm btn-danger" onClick={() => onDelete(i)}>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => onDelete(i)}
+                  >
                     Delete
                   </button>
                 </div>
@@ -42,7 +64,7 @@ function BacklinkTable({ backlinks, onDelete, onEdit }) {
           ))
         ) : (
           <tr>
-            <td colSpan="7" className="text-center">
+            <td colSpan="8" className="text-center">
               No backlinks added yet.
             </td>
           </tr>

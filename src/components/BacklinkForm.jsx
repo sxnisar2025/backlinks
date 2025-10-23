@@ -7,13 +7,21 @@ function BacklinkForm({ onAdd, onUpdate, editing, currentBacklink }) {
     url: '',
     domainAuthority: '',
     spamScore: '',
+    status: '', // Initially empty for "Please Select"
   });
 
   useEffect(() => {
     if (editing && currentBacklink) {
       setFormData(currentBacklink);
     } else {
-      setFormData({ projectName: '', website: '', url: '', domainAuthority: '', spamScore: '' });
+      setFormData({
+        projectName: '',
+        website: '',
+        url: '',
+        domainAuthority: '',
+        spamScore: '',
+        status: '',
+      });
     }
   }, [editing, currentBacklink]);
 
@@ -23,7 +31,12 @@ function BacklinkForm({ onAdd, onUpdate, editing, currentBacklink }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.website || !formData.url) return;
+
+    // Validation: required fields
+    if (!formData.website || !formData.url || !formData.status) {
+      alert('Please fill all required fields, including Status.');
+      return;
+    }
 
     if (editing) {
       onUpdate(formData);
@@ -31,12 +44,19 @@ function BacklinkForm({ onAdd, onUpdate, editing, currentBacklink }) {
       onAdd(formData);
     }
 
-    setFormData({ projectName: '', website: '', url: '', domainAuthority: '', spamScore: '' });
+    setFormData({
+      projectName: '',
+      website: '',
+      url: '',
+      domainAuthority: '',
+      spamScore: '',
+      status: '',
+    });
   };
 
   return (
     <form className="mb-3" onSubmit={handleSubmit}>
-      <div className="row g-2">
+      <div className="row g-2 align-items-center">
         <div className="col-md-2">
           <input
             type="text"
@@ -67,7 +87,7 @@ function BacklinkForm({ onAdd, onUpdate, editing, currentBacklink }) {
             onChange={handleChange}
           />
         </div>
-        <div className="col-md-2">
+        <div className="col-md-1">
           <input
             type="number"
             name="domainAuthority"
@@ -77,18 +97,37 @@ function BacklinkForm({ onAdd, onUpdate, editing, currentBacklink }) {
             onChange={handleChange}
           />
         </div>
-        <div className="col-md-2">
+        <div className="col-md-1">
           <input
             type="number"
             name="spamScore"
             className="form-control"
-            placeholder="Spam Score"
+            placeholder="Spam"
             value={formData.spamScore}
             onChange={handleChange}
           />
         </div>
+
+        {/* ✅ New Status Dropdown */}
+        <div className="col-md-2">
+          <select
+            name="status"
+            className="form-select"
+            value={formData.status}
+            onChange={handleChange}
+          >
+            <option value="">Please Select</option>
+            <option value="Live">Live</option>
+            <option value="Waiting">Waiting</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </div>
+
         <div className="col-md-1 d-grid">
-          <button className={`btn ${editing ? 'btn-success' : 'btn-primary'}`} type="submit">
+          <button
+            className={`btn ${editing ? 'btn-success' : 'btn-primary'}`}
+            type="submit"
+          >
             {editing ? 'Update' : 'Add'}
           </button>
         </div>
