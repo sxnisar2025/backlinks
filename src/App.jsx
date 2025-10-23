@@ -92,7 +92,7 @@ function App() {
       <Navbar />
       <div className="container my-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h4>Backlinks Record</h4>
+          <h4>Backlinks Records</h4>
 
           {/* 📥 Download & 📤 Upload Buttons */}
           <div>
