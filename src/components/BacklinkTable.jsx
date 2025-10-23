@@ -2,6 +2,7 @@ import React from 'react';
 
 function BacklinkTable({ backlinks, onDelete, onEdit }) {
   return (
+    <div class="table-responsive">
     <table className="table table-striped table-hover align-middle">
       <thead className="table-dark">
         <tr>
@@ -71,6 +72,7 @@ function BacklinkTable({ backlinks, onDelete, onEdit }) {
         )}
       </tbody>
     </table>
+    </div>
   );
 }
 
